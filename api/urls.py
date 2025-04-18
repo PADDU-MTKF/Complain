@@ -8,6 +8,6 @@ urlpatterns = [
     
     path("user", views.UserAPI.as_view()),
     path("login", views.LoginAPI.as_view()),
-    path("event", views.EventAPI.as_view()),
+    path("complain", views.ComplainAPI.as_view()),
     
 ]

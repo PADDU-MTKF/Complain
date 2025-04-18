@@ -5,7 +5,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from .modules.login import *
 from .modules.imageDB import addImage
-from .modules.events import *
+from .modules.complain import *
 
 from  .modules.utility import checkReq 
 
@@ -131,7 +131,7 @@ class UserAPI(APIView):
         return Response({"status":True})
      
      
-class EventAPI(APIView):
+class ComplainAPI(APIView):
     parser_classes = (MultiPartParser, FormParser)
     
     def get(self,request,*args, **kwargs):
@@ -143,7 +143,12 @@ class EventAPI(APIView):
         except Exception as e:
             page=0
         
-        data=getAllEvents(page)
+        username=request.query_params.get("username")
+        if username:
+            data=getUserComplains(page,username)
+        else:
+            data=getAllComplains(page)
+            
         
         if not data:
             return Response({"status":False,"error":f"Somthing Went Wrong"})
@@ -166,24 +171,46 @@ class EventAPI(APIView):
         
         
         try:
-            title,description,startDate,endDate,coverImage,location=data["title"],data["description"],data["startDate"],data["endDate"],request.FILES.get("image"),data["location"]
+            title,description,location,image1,image2,image3=data["title"],data["description"],data["location"],request.FILES.get("image1"),request.FILES.get("image2"),request.FILES.get("image3")
         except Exception as e:
             return Response({"status":False,"error": f"required: {str(e)}"})
         
-        status,req=checkReq([title,description,startDate,endDate,location])
+        status,req=checkReq([title,description,location])
         if not status:
             return Response(req)
         
-        if not (coverImage):
-            return Response({"status":False,"error": f"required: image"})
+        if not (image1):
+            return Response({"status":False,"error": f"required: image1"})
 
-        file_url,e=addImage(coverImage)
-        if not file_url:
-            return Response({"status":False,"error": f"Somthing went wrong while file upload --> {e}"})
+        file_url_1,e=addImage(image1)
+        file_url_2=""
+        file_url_3=""
         
-        data={"title":title,"description":description,"startDate":startDate,"endDate":endDate,"coverImage":file_url,"location":location}
+        if not file_url_1:
+            return Response({"status":False,"error": f"Somthing went wrong while file1 upload --> {e}"})
         
-        status,e=addEvent(data)
+        if image2:
+             file_url_2,e=addImage(image2)
+             if not file_url_2:
+                return Response({"status":False,"error": f"Somthing went wrong while file2 upload --> {e}"})
+        if image3:
+             file_url_3,e=addImage(image3)
+             if not file_url_3:
+                return Response({"status":False,"error": f"Somthing went wrong while file3 upload --> {e}"})
+             
+             
+       
+        
+        data={"username":USERNAME, 
+              "title":title,
+              "description":description,
+              "location":location,
+              "progress":"Created",
+              "image1":file_url_1,
+              "image2":file_url_2,
+              "image3":file_url_3}
+        
+        status,e=addComplain(data)
         if not status:
             return Response({"status":False,"error":f"Somthing Went Wrong : {e}"})
   
@@ -201,12 +228,15 @@ class EventAPI(APIView):
             return Response({"status":False,"error": f"TOKEN: Invalid TOKEN, Login to add data"})
         
         id=request.data.get("id")
-        coverImage=request.data.get("coverImage")
+        image1=request.data.get("image1")
+        image2=request.data.get("image2")
+        image3=request.data.get("image3")
         
-        if not id or not coverImage:
-            return Response({"status":False,"error": f"ID and coverImage: Required ID and coverImage"})
+        
+        if not id or not image1:
+            return Response({"status":False,"error": f"ID and image1: Required ID and image1"})
             
-        status,e=deleteEvent(id,coverImage)
+        status,e=deleteComplain(id,image1,image2,image3)
         if not status:
             return Response({"status":False,"error":f"Somthing Went Wrong : {e}"})
   

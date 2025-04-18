@@ -14,19 +14,21 @@ def getDoc(TBL,key,value):
     profile=db.getDocument(TBL,query=[Query.equal(key, [value])])    
     return profile[0] if profile else []
 
-def getAllDoc(TBL,page=0):
+def getAllDoc(TBL,page=0,username=None):
     profile=[]
     limit=25
     offest=limit*page
-    profile=db.getDocument(TBL,query=[Query.limit(limit),Query.offset(offest),Query.order_desc("$createdAt")])    
+    if not username:
+        profile=db.getDocument(TBL,query=[Query.limit(limit),Query.offset(offest),Query.order_desc("$createdAt")])    
+    else:
+        profile=db.getDocument(TBL,query=[Query.limit(limit),Query.offset(offest),Query.order_desc("$createdAt"),Query.equal("username",username)])    
+        
     return profile if profile else []
 
 def getDocID(TBL,key,value):
     profile=getDoc(TBL,key,value)
     docID=profile["id"] if profile else ""
     
-    if profile and profile["deleted"]:
-        docID=""
     return docID
     
 def updateDoc(TBL,ID,data):
