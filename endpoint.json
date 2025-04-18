@@ -1,0 +1,126 @@
+{
+    "/api/login":{
+        "POST":{
+            "REQ_DATA":["username","password"],
+            
+            "EG_TRUE_RESULT":{
+                "status": true,
+                "result": {
+                  "id": "67f6222700033fedcc94",
+                  "username": "paddu",
+                  "name": "name",
+                  "phno": 1452541544,
+                  "deleted": false
+                },
+                "TOKEN": "qF6ghdL1rzwNVxvkvKtJ"
+              },
+
+            "EG_FALSE_RESULT":{
+                "status": false,
+                "error": "required: 'password'"
+              }
+        }
+       
+    },
+
+    "/api/user":{
+        "GET":{
+            "REQ_DATA":["username","TOKEN (in header)"],
+
+            "EG_TRUE_RESULT":{
+                "status": true,
+                "result": {
+                  "id": "67f6222700033fedcc94",
+                  "username": "paddu",
+                  "name": "name",
+                  "phno": 1452541544,
+                  "deleted": false
+                }
+              },
+
+            "EG_FALSE_RESULT":{
+                "status": false,
+                "error": "TOKEN: Invalid TOKEN, Login to get data"
+              }
+
+        },
+        "POST":{
+            "REQ_DATA":[ "username","password","name","phno"],
+
+            "EG_TRUE_RESULT":{
+                "status": true
+              },
+
+            "EG_FALSE_RESULT":{
+                "status": false,
+                "error": "required: 'name'"
+              }
+        },
+        "DELETE":{
+            "REQ_DATA":[ "username", "TOKEN (in header)"],
+
+            "EG_TRUE_RESULT":{
+                "status": true
+              },
+              
+            "EG_FALSE_RESULT":{
+                "status": false,
+                "error": "TOKEN: Login to delete data"
+              }
+        },
+        "PUT":{
+            "REQ_DATA":[ "username","password","name","phno", "TOKEN (in header)"],
+
+            "EG_TRUE_RESULT":{
+                "status": true
+              },
+              
+            "EG_FALSE_RESULT":{
+                "status": false,
+                "error": "required: 'name'"
+              }
+        }
+    },
+
+    "/api/event":{
+      "GET":{
+          "REQ_DATA":["page"],
+
+          "EG_TRUE_RESULT":{
+              
+            },
+
+          "EG_FALSE_RESULT":{
+            "status":false,
+            "error":"Somthing Went Wrong"
+          }
+
+      },
+      "POST":{
+          "REQ_DATA":[ "title","description","startDate","endDate","coverImage","TOKEN (in header)","USERNAME (in header)"],
+
+          "EG_TRUE_RESULT":{
+              "status": true
+            },
+
+          "EG_FALSE_RESULT":{
+              "status": false,
+              "error": "required: 'name'"
+            }
+      },
+      "DELETE":{
+          "REQ_DATA":[ "id","coverImage","TOKEN (in header)","USERNAME (in header)"],
+
+          "EG_TRUE_RESULT":{
+              "status": true
+            },
+
+          "EG_FALSE_RESULT":{
+              "status": false,
+              "error": "required: 'name'"
+            }
+      }
+  }
+
+    
+}
