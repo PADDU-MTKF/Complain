@@ -206,9 +206,12 @@ class ComplainAPI(APIView):
               "description":description,
               "location":location,
               "progress":"Created",
-              "image1":file_url_1,
-              "image2":file_url_2,
-              "image3":file_url_3}
+              "image1":file_url_1}
+
+        if file_url_2:
+            data["image2"]=file_url_2
+        if file_url_3:
+            data["image3"]=file_url_3
         
         status,e=addComplain(data)
         if not status:
