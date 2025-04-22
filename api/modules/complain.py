@@ -20,6 +20,10 @@ def addComplain(data):
     status,e=addDoc(COMPLAIN_TBL,data)
     return status,e
 
+def updateComplainStatus(data,id):
+    status,e=db.updateDocument(COMPLAIN_TBL,id,data)
+    return status,e
+
 def deleteComplain(ID,image1,image2="",image3=""):
     status,e=deleteImage(image1)
     if image2:
