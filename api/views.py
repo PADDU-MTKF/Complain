@@ -219,32 +219,6 @@ class ComplainAPI(APIView):
   
         return Response({"status":True})
     
-    def delete(self,request):
-        
-        TOKEN = request.headers.get('TOKEN')
-        USERNAME = request.headers.get('USERNAME')
-        
-        if not TOKEN or not USERNAME:
-            return Response({"status":False,"error": f"TOKEN & USERNAME: Login to add data"})
-        
-        if not validateUserToken(USERNAME,TOKEN):
-            return Response({"status":False,"error": f"TOKEN: Invalid TOKEN, Login to add data"})
-        
-        id=request.data.get("id")
-        image1=request.data.get("image1")
-        image2=request.data.get("image2")
-        image3=request.data.get("image3")
-        
-        
-        if not id or not image1:
-            return Response({"status":False,"error": f"ID and image1: Required ID and image1"})
-            
-        status,e=deleteComplain(id,image1,image2,image3)
-        if not status:
-            return Response({"status":False,"error":f"Somthing Went Wrong : {e}"})
-  
-        return Response({"status":True})
-    
     def put(self,request):
         TOKEN = request.headers.get('TOKEN')
         USERNAME = request.headers.get('USERNAME')
@@ -277,6 +251,32 @@ class ComplainAPI(APIView):
 
            
 
+class deleteComplainAPI(APIView):
+     def post(self,request):
+        
+        TOKEN = request.headers.get('TOKEN')
+        USERNAME = request.headers.get('USERNAME')
+        
+        if not TOKEN or not USERNAME:
+            return Response({"status":False,"error": f"TOKEN & USERNAME: Login to add data"})
+        
+        if not validateUserToken(USERNAME,TOKEN):
+            return Response({"status":False,"error": f"TOKEN: Invalid TOKEN, Login to add data"})
+        
+        id=request.data.get("id")
+        image1=request.data.get("image1")
+        image2=request.data.get("image2")
+        image3=request.data.get("image3")
+        
+        
+        if not id or not image1:
+            return Response({"status":False,"error": f"ID and image1: Required ID and image1"})
+            
+        status,e=deleteComplain(id,image1,image2,image3)
+        if not status:
+            return Response({"status":False,"error":f"Somthing Went Wrong : {e}"})
+  
+        return Response({"status":True})
 
 
 
