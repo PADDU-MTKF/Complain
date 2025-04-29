@@ -278,5 +278,34 @@ class deleteComplainAPI(APIView):
   
         return Response({"status":True})
 
-
+class updateRole(APIView):
+    def put(self,request):
+        TOKEN = request.headers.get('TOKEN')
+        USERNAME = request.headers.get('USERNAME')
+        
+        # print(TOKEN,USERNAME)
+        if not TOKEN or not USERNAME:
+            return Response({"status":False,"error": f"TOKEN & USERNAME: Login to add data"})
+        
+        if not validateUserToken(USERNAME,TOKEN):
+            return Response({"status":False,"error": f"TOKEN: Invalid TOKEN, Login to add data"})
+        
+        data=request.data
+        
+        
+        try:
+            role,username=data["role"],data["username"]
+        except Exception as e:
+            return Response({"status":False,"error": f"required: {str(e)}"})
+        
+        status,req=checkReq([role,username])
+        if not status:
+            return Response(req)
+        
+        data={"username":username,"role":role}
+        status,e=updateUserProfile(data)
+        if not status:
+            return Response({"status":False,"error":f"Somthing Went Wrong : {e}"})
+  
+        return Response({"status":True})
 

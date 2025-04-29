@@ -10,5 +10,6 @@ urlpatterns = [
     path("login", views.LoginAPI.as_view()),
     path("complain", views.ComplainAPI.as_view()),
     path("deletecomplain", views.deleteComplainAPI.as_view()),
+    path("updaterole", views.updateRole.as_view()),
     
 ]
