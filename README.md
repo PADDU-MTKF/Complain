@@ -60,6 +60,12 @@ The backend follows a **stateless API architecture** with **TOKEN-based authenti
 ---
 
 ## 🛠️ Tech Stack
+<p align="left">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="32" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-plain.svg" width="32" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/appwrite/appwrite-original.svg" width="32" />
+</p>
+
 - **Python**
 - **Django REST Framework**
 - **Appwrite** (Database & Storage)
